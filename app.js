@@ -62,7 +62,17 @@ app.use(function(err, req, res, next) {
 
 module.exports = app;
 
-io.on('connection', function (socket) {
+io.on('connection', function(socket){
     console.log('A new user connected!');
+
     socket.emit('info', { msg: 'The world is round, there is no up or down.' });
+
+    socket.on('chat', function(msg){
+        console.log('message: ' + msg);
+        io.emit('chat', msg);
+    });
+
+    socket.on('disconnect', function(){
+        console.log('A user disconnected');
+    });
 });
