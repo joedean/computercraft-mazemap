@@ -9,6 +9,7 @@ var socketio = require('socket.io');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var moves = require('./routes/moves');
 
 var app = express();
 var server = http.createServer(app).listen(8000);
@@ -27,6 +28,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/moves', moves);
+moves(app, io);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -65,11 +68,8 @@ module.exports = app;
 io.on('connection', function(socket){
     console.log('A new user connected!');
 
-    socket.emit('info', { msg: 'The world is round, there is no up or down.' });
-
     socket.on('chat', function(msg){
-        console.log('message: ' + msg);
-        io.emit('chat', msg);
+        io.emit('move', msg);
     });
 
     socket.on('disconnect', function(){
