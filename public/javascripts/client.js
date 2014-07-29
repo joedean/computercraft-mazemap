@@ -131,8 +131,7 @@ $(function() {
   var socket = io.connect();
 
   socket.on('move', function(direction) {
-      console.log("inside move on client!!!");
-      $('#messages').append($('<li>').text(direction));
+      console.log(direction);
   });
 
   socket.on('httpmove', function(direction) {
